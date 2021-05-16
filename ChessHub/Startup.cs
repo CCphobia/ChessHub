@@ -1,7 +1,14 @@
+using AutoMapper;
+using ChessHub.Data;
+using ChessHub.Data.Repositories;
+using ChessHub.Infrastructure;
+using ChessHub.Services;
+using ChessHub.Services.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +29,17 @@ namespace ChessHub
         {
 
             services.AddControllersWithViews();
+
+            services.AddDbContext<ChessHubDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("ChessHubDatabase")));
+
+            services.AddAutoMapper(cfg => cfg.AddProfile(new DefaultDTOMapping()));
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IGameService, GameService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
