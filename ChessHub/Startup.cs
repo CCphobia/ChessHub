@@ -4,6 +4,7 @@ using ChessHub.Data.Repositories;
 using ChessHub.Infrastructure;
 using ChessHub.Services;
 using ChessHub.Services.Implementations;
+using ChessHub.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,7 +28,7 @@ namespace ChessHub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddSignalR();
             services.AddControllersWithViews();
 
             services.AddDbContext<ChessHubDbContext>(
@@ -73,6 +74,7 @@ namespace ChessHub
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<GameHub>("/game");
             });
 
             app.UseSpa(spa =>
