@@ -1,5 +1,6 @@
 {
   "version": "1.0",
+<<<<<<< HEAD
   "defaultProvider": "unpkg",
   "libraries": [
     {
@@ -11,4 +12,8 @@
       ]
     }
   ]
+=======
+  "defaultProvider": "cdnjs",
+  "libraries": []
+>>>>>>> ad1a930 (initial)
 }

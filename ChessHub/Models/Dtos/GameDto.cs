@@ -13,5 +13,7 @@ namespace ChessHub.Models.Dtos
         public string Moves { get; set; }
         public virtual UserDto WhitePlayer { get; set; }
         public virtual UserDto BlackPlayer { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }

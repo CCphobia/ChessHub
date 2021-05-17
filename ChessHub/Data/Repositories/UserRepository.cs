@@ -30,8 +30,8 @@ namespace ChessHub.Data.Repositories
 
             user.BlackGames = newData.BlackGames;
             user.Email = newData.Email;
-            user.Login = newData.Login;
-            user.Password = newData.Password;
+            user.UserName = newData.UserName;
+            user.PasswordHash = newData.PasswordHash;
             user.Rank = newData.Rank;
             user.WhiteGames = newData.WhiteGames;
 

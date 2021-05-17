@@ -14,5 +14,7 @@ namespace ChessHub.Entities
         public string Moves { get; set; }
         public virtual User WhitePlayer { get; set; }
         public virtual User BlackPlayer { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }

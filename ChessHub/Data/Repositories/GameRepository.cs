@@ -33,6 +33,8 @@ namespace ChessHub.Data.Repositories
             game.GameResult = newData.GameResult;
             game.Moves = newData.Moves;
             game.MovesCounter = newData.MovesCounter;
+            game.StartTime = newData.StartTime;
+            game.EndTime = newData.EndTime;
 
             _chessHubDbContext.SaveChanges();
 
