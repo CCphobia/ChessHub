@@ -35,6 +35,16 @@ namespace ChessHub
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("ClientPermission", policy =>
+                {
+                    policy.AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithOrigins("http://localhost:44349")
+                        .AllowCredentials();
+                });
+            });
             services.AddDbContext<ChessHubDbContext>(
     options => options.UseSqlServer(Configuration.GetConnectionString("ChessHubDatabase")));
 
@@ -91,7 +101,7 @@ namespace ChessHub
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
+            app.UseCors("ClientPermission");
             app.UseRouting();
 
             app.UseAuthentication();
@@ -103,7 +113,7 @@ namespace ChessHub
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-                endpoints.MapHub<GameHub>("/game");
+                endpoints.MapHub<GameHub>("/GameChat");
             });
 
             app.UseSpa(spa =>

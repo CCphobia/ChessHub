@@ -23,6 +23,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,11 +34,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\assets\vendor\signalr\signalr.js" />
+    <None Remove="ClientApp\src\assets\vendor\signalr\signalr.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_WebToolingArtifacts Remove="Properties\serviceDependencies.json" />
     <_WebToolingArtifacts Remove="Properties\serviceDependencies.local.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ClientApp\src\assets\vendor\signalr\signalr.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\vendor\signalr\signalr.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="Properties\serviceDependencies.json" />
     <Content Include="Properties\serviceDependencies.local.json" />
   </ItemGroup>
@@ -49,6 +63,7 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

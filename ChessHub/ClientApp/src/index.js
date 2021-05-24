@@ -4,22 +4,23 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 //import registerServiceWorker from './registerServiceWorker';
+import './assets/css/style.css';
+import './assets/vendor/aos/aos.css';
+import './assets/vendor/bootstrap/css/bootstrap.min.css';
+import './assets/vendor/boxicons/css/boxicons.min.css';
+import AOS from 'aos';
+
+//import './assets/js/main.js';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
-
+AOS.init();
 ReactDOM.render(
+
   <BrowserRouter basename={baseUrl}>
     <App />
   </BrowserRouter>,
   rootElement);
 
-// Uncomment the line above that imports the registerServiceWorker function
-// and the line below to register the generated service worker.
-// By default create-react-app includes a service worker to improve the
-// performance of the application by caching static assets. This service
-// worker can interfere with the Identity UI, so it is
-// disabled by default when Identity is being used.
-//
 //registerServiceWorker();
 

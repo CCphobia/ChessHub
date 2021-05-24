@@ -37,7 +37,6 @@ namespace ChessHub.Services.Implementations
             {
                 User editedUser = _userRepository.EditUser(email, newEntityData);
                 return _mapper.Map<UserDto>(editedUser);
-
             }
             catch (Exception e)
             {

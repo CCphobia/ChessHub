@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
-import { FetchData } from './components/FetchData';
-import { Counter } from './components/Counter';
+import { GameRooms } from './components/GameRooms';
+import { Game } from './components/Game';
+import { Rank } from './components/Rank';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
@@ -17,9 +18,10 @@ export default class App extends Component {
     return (
       <Layout>
         <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <AuthorizeRoute path='/fetch-data' component={FetchData} />
         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
+        <AuthorizeRoute path='/GameRooms' component={GameRooms} />
+        <AuthorizeRoute path='/Game/1' component={Game} />
+        <AuthorizeRoute path='/Rank' component={Rank} />
       </Layout>
     );
   }
