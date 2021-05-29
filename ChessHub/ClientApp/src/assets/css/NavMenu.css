@@ -1,0 +1,12 @@
+﻿html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.logo {
+    content: url("../img/chess-icon.png");
+}

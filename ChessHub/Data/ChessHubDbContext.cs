@@ -43,7 +43,7 @@ namespace ChessHub.Data
         //        );
         //}
 
-        //public DbSet<User> Users { get; set; } already implemented ApiAuthorizationDbContext<User> 
+        //public DbSet<User> Users { get; set; } already implemented in ApiAuthorizationDbContext<User> 
         public DbSet<Game> Games { get; set; }
         public DbSet<GameResult> GameResults { get; set; }
     }

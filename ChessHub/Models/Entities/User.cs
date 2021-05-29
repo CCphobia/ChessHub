@@ -9,10 +9,6 @@ namespace ChessHub.Entities
 {
     public class User : IdentityUser
     {
-        //public int UserId { get; set; }
-        //public string Login { get; set; }
-        //public string Password { get; set; }
-        //public string Email { get; set; }
         public int Rank { get; set; }
         [InverseProperty("WhitePlayer")]
         public virtual ICollection<Game> WhiteGames { get; set; }

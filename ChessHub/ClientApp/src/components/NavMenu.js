@@ -3,7 +3,7 @@ import { NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import authService from './api-authorization/AuthorizeService';
 import { LoginMenu } from './api-authorization/LoginMenu';
-import './NavMenu.css';
+import '../assets/css/NavMenu.css';
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
@@ -42,7 +42,7 @@ export class NavMenu extends Component {
                 <header id="header">
                     <div className="d-flex flex-column">
                         <div className="profile">
-                            <img src="assets/img/chess-icon.png" alt="" className="img-fluid rounded-circle" />
+                            <img alt="" className="img-fluid rounded-circle logo" />
                             <h1 className="text-light"><a href="/">Chess.pl</a></h1>
                         </div>
                         <nav id="navbar" className="nav-menu navbar">

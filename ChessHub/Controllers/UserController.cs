@@ -25,10 +25,10 @@ namespace ChessHub.Controllers
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new User
             {
-                Rank = rng.Next(-20, 55),
+                UserName = "user",
+                Rank = index
             })
             .ToArray();
         }

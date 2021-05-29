@@ -15,38 +15,17 @@ export class Rank extends Component {
 
     async populateRankData() {
         const token = await authService.getAccessToken();
-        const response = await fetch('weatherforecast', {
+        const response = await fetch('user', {
             headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
         });
-        console.log(response);
         const data = await response.json();
+        console.log(data);
         this.setState({ ranks: data, loading: false });
     }
 
-    static renderRankTable(forecasts) {
+    static renderRankTable(users) {
         return (
-            <div> <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Temp. (C)</th>
-                        <th>Temp. (F)</th>
-                        <th>Summary</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {forecasts.map(forecast =>
-                        <tr key={forecast.date}>
-                            <td>{forecast.date}</td>
-                            <td>{forecast.temperatureC}</td>
-                            <td>{forecast.temperatureF}</td>
-                            <td>{forecast.summary}</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-
-
+            <div>
                 <div className="row">
                         <div className="col-lg-4 col-md-6" data-aos="fade-up">
                             <h2 className="title">Miejsce</h2>
@@ -55,39 +34,17 @@ export class Rank extends Component {
                             <h2 className="title">Nazwa</h2>
                         </div>
                     </div>
-
-                    <div className="row">
+                {users.map(user =>
+                    <div key={user.id} className="row">
                         <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <h4>1</h4>
+                            <h4>{user.rank}</h4>
                         </div>
                         <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <h4>Piotr Augustowski</h4>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <h4>2</h4>
-                        </div>
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <h4>Krzysztof Nowak</h4>
+                            <h4>{user.userName}</h4>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <h4>3</h4>
-                        </div>
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <h4>Marek Moskwa</h4>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <h4>4</h4>
-                        </div>
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <h4>Maciej Ryś</h4>
-                        </div>
-                    </div></div>)
+                )}
+                  </div>)
     }
 
     render() {
