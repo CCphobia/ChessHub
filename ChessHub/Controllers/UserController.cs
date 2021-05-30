@@ -41,6 +41,7 @@ namespace ChessHub.Controllers
         }
 
         [HttpGet]
+        [Route("GetUsers")]
         public IActionResult GetUsers()
         {
             List<UserDto> users = _userService.GetUsers();

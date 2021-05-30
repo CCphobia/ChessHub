@@ -4,14 +4,16 @@ using ChessHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChessHub.Migrations
 {
     [DbContext(typeof(ChessHubDbContext))]
-    partial class ChessHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210530164945_AddOwnerUserToRoom")]
+    partial class AddOwnerUserToRoom
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,11 +56,26 @@ namespace ChessHub.Migrations
 
                     b.HasIndex("BlackPlayerId");
 
+                    b.HasIndex("GameResultId");
+
                     b.HasIndex("OwnerPlayerId");
 
                     b.HasIndex("WhitePlayerId");
 
                     b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("ChessHub.Entities.GameResult", b =>
+                {
+                    b.Property<int>("GameResultId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("GameResultId");
+
+                    b.ToTable("GameResults");
                 });
 
             modelBuilder.Entity("ChessHub.Entities.User", b =>
@@ -373,6 +390,12 @@ namespace ChessHub.Migrations
                         .WithMany("BlackGames")
                         .HasForeignKey("BlackPlayerId");
 
+                    b.HasOne("ChessHub.Entities.GameResult", "GameResult")
+                        .WithMany("Games")
+                        .HasForeignKey("GameResultId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ChessHub.Entities.User", "OwnerPlayer")
                         .WithMany()
                         .HasForeignKey("OwnerPlayerId");
@@ -382,6 +405,8 @@ namespace ChessHub.Migrations
                         .HasForeignKey("WhitePlayerId");
 
                     b.Navigation("BlackPlayer");
+
+                    b.Navigation("GameResult");
 
                     b.Navigation("OwnerPlayer");
 
@@ -437,6 +462,11 @@ namespace ChessHub.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ChessHub.Entities.GameResult", b =>
+                {
+                    b.Navigation("Games");
                 });
 
             modelBuilder.Entity("ChessHub.Entities.User", b =>

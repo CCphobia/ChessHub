@@ -9,10 +9,12 @@ namespace ChessHub.Data
     public interface IGameRepository
     {
         Game AddGame(Game game);
-        Game RemoveGame(User whitePlayer, User blackPlayer, DateTime startTime);
-        Game EditGame(User whitePlayer, User blackPlayer, Game newData, DateTime startTime);
-        Game GetGame(User whitePlayer, User blackPlayer, DateTime startTime);
+        Game RemoveGame(User ownerPlayer, DateTime startTime);
+        Game EditGame(User ownerPlayer, GameResultId gameResultId, Game newData);
+        Game GetGame(User ownerPlayer, DateTime startTime);
+        Game GetNotGoingGame(User ownerPlayer);
         List<Game> GetGames();
+        List<Game> GetNotStartedGames();
         List<Game> GetGamesByUser(User player);
     }
 }

@@ -4,6 +4,10 @@ import Chat from './Chat';
 export class Game extends Component {
     static displayName = Game.name;
 
+    constructor(props) {
+        super(props);
+        this.state = { ownerName: this.props.match.params.ownerName };
+    }
 
     render() {
         return (
@@ -73,7 +77,7 @@ export class Game extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <Chat/>
+                            <Chat ownerName={this.state.ownerName} />
                         </div>
                     </div>
 

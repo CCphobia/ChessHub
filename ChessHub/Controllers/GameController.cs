@@ -1,24 +1,38 @@
+
 ﻿using ChessHub.Models.Dtos;
 using ChessHub.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+using ChessHub.Entities;
 
 namespace ChessHub.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class GameController : ControllerBase
     {
         private readonly IGameService _gameService;
         private readonly IUserService _userService;
+        private readonly ILogger<GameController> _logger;
 
-        public GameController(IGameService gameService, IUserService userService)
+        public GameController(IGameService gameService, IUserService userService, ILogger<GameController> logger)
         {
+
+            _logger = logger;
             _gameService = gameService;
             _userService = userService;
+        }
+
+        [HttpGet]
+        [Route("GetNotStartedGames")]
+        public IActionResult GetNotStartedGames()
+        {
+            List<GameDto> games = _gameService.GetNotStartedGames();
+            return Ok(games);
         }
 
         [HttpGet]
@@ -26,19 +40,21 @@ namespace ChessHub.Controllers
         {
             List<GameDto> games = _gameService.GetGames();
 
-            if(games.Count == 0)
+            if (games.Count == 0)
             {
                 return NotFound();
-            } else
+            }
+            else
             {
                 return Ok(games);
             }
         }
 
         [HttpGet]
-        public IActionResult GetGame(UserDto whitePlayer, UserDto blackPlayer, DateTime gameStart)
+        public IActionResult GetGame(UserDto ownerPlayer)
         {
-            GameDto game = _gameService.GetGame(whitePlayer, blackPlayer, gameStart);
+            DateTime gameStart = DateTime.Now;//doesnt work
+            GameDto game = _gameService.GetGame(ownerPlayer, gameStart);
 
             if (game == null)
             {
@@ -51,42 +67,91 @@ namespace ChessHub.Controllers
         }
 
         [HttpPost]
+        [Route("AddGame")]
         public IActionResult AddGame([FromBody] GameDto game)
         {
+            game.StartTime = DateTime.Now;
             GameDto addedGame = _gameService.AddGame(game);
 
-            if(addedGame == null)
+            if (addedGame == null)
             {
                 return BadRequest();
-            } else
+            }
+            else
             {
                 return CreatedAtAction(nameof(GetGame), addedGame);
             }
         }
 
         [HttpPut]
-        public IActionResult EditGame(UserDto whitePlayer, UserDto blackPlayer, DateTime startTime, [FromBody] GameDto newData)
+        public IActionResult EditGame( string ownerPlayerName, [FromBody] GameDto newData)
         {
-            GameDto updatedGame = _gameService.EditGame(whitePlayer, blackPlayer, startTime, newData);
+            DateTime startTime = DateTime.Now;//doesnt work
+            UserDto ownerPlayer = _userService.GetUser(ownerPlayerName);
+            GameDto updatedGame = _gameService.EditGame(ownerPlayer, GameResultId.Black, newData);
 
-            if(updatedGame == null)
+            if (updatedGame == null)
             {
                 return BadRequest();
-            } else
+            }
+            else
             {
                 return Ok(updatedGame);
             }
         }
 
-        [HttpDelete]
-        public IActionResult DeleteGame(UserDto whitePlayer, UserDto blackPlayer, DateTime startTime)
+        [HttpPut]
+        [Route("JoinPlayer/{ownerPlayerName?}")]
+        public IActionResult JoinPlayer(string ownerPlayerName, [FromBody] UserDto joiningPlayer)
         {
-            GameDto deletedGame = _gameService.RemoveGame(whitePlayer, blackPlayer, startTime);
 
-            if(deletedGame == null)
+            UserDto OwnerPlayer = _userService.GetUser(ownerPlayerName);
+            UserDto FullJoiningPlayer = _userService.GetUser(joiningPlayer.Email);
+            GameDto Game = _gameService.GetNotGoingGame(OwnerPlayer);
+            if(Game.BlackPlayer == null)
+            {
+                Game.BlackPlayer = FullJoiningPlayer;
+            }else if(Game.WhitePlayer == null)
+            {
+                Game.WhitePlayer = FullJoiningPlayer;
+            }
+            else
+            {
+                return Problem("do tej gry dołączyli już gracze");
+            }
+
+            if(Game.GameResultId == GameResultId.NotStarted)
+            {
+                Game.GameResultId = GameResultId.Ongoing;
+            }
+            else
+            {
+                return Problem("ta gra już się rozpoczeła");
+            }
+            GameDto updatedGame = _gameService.EditGame(OwnerPlayer, GameResultId.NotStarted, Game);
+
+            if (updatedGame == null)
             {
                 return BadRequest();
-            } else
+            }
+            else
+            {
+                return Ok(updatedGame);
+            }
+        }
+
+
+        [HttpDelete]
+        public IActionResult DeleteGame(UserDto ownerPlayer)
+        {
+            DateTime startTime = DateTime.Now;//doesnt work
+            GameDto deletedGame = _gameService.RemoveGame(ownerPlayer, startTime);
+
+            if (deletedGame == null)
+            {
+                return BadRequest();
+            }
+            else
             {
                 return Ok(deletedGame);
             }
@@ -97,17 +162,18 @@ namespace ChessHub.Controllers
         {
             UserDto user = _userService.GetUser(email);
 
-            if(user == null)
+            if (user == null)
             {
                 return BadRequest();
             }
 
             List<GameDto> games = _gameService.GetGamesByUser(user);
 
-            if(games.Count == 0)
+            if (games.Count == 0)
             {
                 return NotFound();
-            } else
+            }
+            else
             {
                 return Ok(games);
             }

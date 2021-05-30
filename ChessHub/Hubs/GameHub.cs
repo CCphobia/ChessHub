@@ -12,15 +12,7 @@ namespace ChessHub.Hubs
 
        
         //gracz klikając dołącz dołącza do pokoju o nazwie widocznej przy dołącz
-        public override async Task OnConnectedAsync()
-        {
-            await CreateRoom("1");
-        }
-        public async Task CreateRoom(string room)
-        {
-            //dodaj do bazy danych pokój
-            await this.JoinRoom(room);
-        }
+
         public async Task JoinRoom(string room)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, room);

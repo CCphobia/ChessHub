@@ -37,7 +37,7 @@ export class NavMenu extends Component {
   }
 
     render() {
-        if (this.state.isAuthenticatedUser) {
+        if (this.state.isAuthenticatedUser[0]) {
             return (
                 <header id="header">
                     <div className="d-flex flex-column">
@@ -48,7 +48,7 @@ export class NavMenu extends Component {
                         <nav id="navbar" className="nav-menu navbar">
                             <ul>
                                 <NavItem>
-                                    <NavLink tag={Link} className="nav-link scrollto" to="/Game/1"><i className="bx bxs-chess"></i>Graj</NavLink>
+                                    <NavLink tag={Link} className="nav-link scrollto" to="/GameRooms"><i className="bx bxs-chess"></i>Graj</NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink tag={Link} className="nav-link scrollto" to="/Rank"><i className="bx bx-trophy"></i>Ranking</NavLink>

@@ -10,6 +10,7 @@ namespace ChessHub.Entities
         Black = 0,
         White = 1,
         Pat = 2,
-        Ongoing = 3
+        Ongoing = 3,
+        NotStarted = 4
     }
 }

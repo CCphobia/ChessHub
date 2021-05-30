@@ -15,7 +15,7 @@ export class Rank extends Component {
 
     async populateRankData() {
         const token = await authService.getAccessToken();
-        const response = await fetch('user', {
+        const response = await fetch('User/GetUsers', {
             headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
@@ -35,12 +35,12 @@ export class Rank extends Component {
                         </div>
                     </div>
                 {users.map(user =>
-                    <div key={user.id} className="row">
+                    <div key={user.email} className="row">
                         <div className="col-lg-4 col-md-6" data-aos="fade-up">
                             <h4>{user.rank}</h4>
                         </div>
                         <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <h4>{user.userName}</h4>
+                            <h4>{user.email}</h4>
                         </div>
                     </div>
                 )}
