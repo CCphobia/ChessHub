@@ -23,10 +23,10 @@ namespace ChessHub.Data.Repositories
             return game;
         }
 
-        public Game EditGame(User whitePlayer, User blackPlayer, Game newData)
+        public Game EditGame(User whitePlayer, User blackPlayer, Game newData, DateTime startTime)
         {
             Game game = _chessHubDbContext.Games.FirstOrDefault(game =>
-                game.WhitePlayer.Equals(whitePlayer) && game.BlackPlayer.Equals(blackPlayer));
+                game.WhitePlayer.Equals(whitePlayer) && game.BlackPlayer.Equals(blackPlayer) && game.StartTime.Equals(startTime);
 
             game.WhitePlayer = newData.WhitePlayer;
             game.BlackPlayer = newData.BlackPlayer;
@@ -41,10 +41,10 @@ namespace ChessHub.Data.Repositories
             return game;
         }
 
-        public Game GetGame(User whitePlayer, User blackPlayer)
+        public Game GetGame(User whitePlayer, User blackPlayer, DateTime startTime)
         {
             return _chessHubDbContext.Games.FirstOrDefault(game =>
-                game.WhitePlayer.Equals(whitePlayer) && game.BlackPlayer.Equals(blackPlayer));
+                game.WhitePlayer.Equals(whitePlayer) && game.BlackPlayer.Equals(blackPlayer) && game.StartTime.Equals(startTime);
         }
 
         public List<Game> GetGames()
@@ -52,10 +52,17 @@ namespace ChessHub.Data.Repositories
             return _chessHubDbContext.Games.ToList();
         }
 
-        public Game RemoveGame(User whitePlayer, User blackPlayer)
+        public List<Game> GetGamesByUser(User player)
+        {
+            return _chessHubDbContext.Games
+                .Where(g => g.BlackPlayer.Equals(player) || g.WhitePlayer.Equals(player))
+                .ToList();
+        }
+
+        public Game RemoveGame(User whitePlayer, User blackPlayer, DateTime startTime)
         {
             Game game = _chessHubDbContext.Games.FirstOrDefault(game =>
-                game.WhitePlayer.Equals(whitePlayer) && game.BlackPlayer.Equals(blackPlayer));
+                game.WhitePlayer.Equals(whitePlayer) && game.BlackPlayer.Equals(blackPlayer) && game.StartTime.Equals(startTime);
 
             _chessHubDbContext.Games.Remove(game);
             _chessHubDbContext.SaveChanges();

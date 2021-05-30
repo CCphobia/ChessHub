@@ -29,7 +29,7 @@ namespace ChessHub.Services.Implementations
             return _mapper.Map<GameDto>(gameEntity);
         }
 
-        public GameDto EditGame(UserDto whitePlayer, UserDto blackPlayer, GameDto newData)
+        public GameDto EditGame(UserDto whitePlayer, UserDto blackPlayer, DateTime startTime, GameDto newData)
         {
             Game newEntityData = _mapper.Map<Game>(newData);
             User whitePlayerEntity = _mapper.Map<User>(whitePlayer);
@@ -37,7 +37,7 @@ namespace ChessHub.Services.Implementations
 
             try
             {
-                Game editedGame = _gameRepository.EditGame(whitePlayerEntity, blackPlayerEntity, newEntityData);
+                Game editedGame = _gameRepository.EditGame(whitePlayerEntity, blackPlayerEntity, newEntityData, startTime);
                 return _mapper.Map<GameDto>(editedGame);
 
             } catch(Exception e)
@@ -47,12 +47,12 @@ namespace ChessHub.Services.Implementations
             }
         }
 
-        public GameDto GetGame(UserDto whitePlayer, UserDto blackPlayer)
+        public GameDto GetGame(UserDto whitePlayer, UserDto blackPlayer, DateTime startTime)
         {
             User whitePlayerEntity = _mapper.Map<User>(whitePlayer);
             User blackPlayerEntity = _mapper.Map<User>(blackPlayer);
 
-            Game game = _gameRepository.GetGame(whitePlayerEntity, blackPlayerEntity);
+            Game game = _gameRepository.GetGame(whitePlayerEntity, blackPlayerEntity, startTime);
 
             return _mapper.Map<GameDto>(game);
         }
@@ -62,12 +62,17 @@ namespace ChessHub.Services.Implementations
             return _mapper.Map<List<GameDto>>(_gameRepository.GetGames());
         }
 
-        public GameDto RemoveGame(UserDto whitePlayer, UserDto blackPlayer)
+        public List<GameDto> GetGamesByUser(UserDto player)
+        {
+            return _mapper.Map<List<GameDto>>(_gameRepository.GetGamesByUser(_mapper.Map<User>(player)));
+        }
+
+        public GameDto RemoveGame(UserDto whitePlayer, UserDto blackPlayer, DateTime startTime)
         {
             User whitePlayerEntity = _mapper.Map<User>(whitePlayer);
             User blackPlayerEntity = _mapper.Map<User>(blackPlayer);
 
-            Game game = _gameRepository.RemoveGame(whitePlayerEntity, blackPlayerEntity);
+            Game game = _gameRepository.RemoveGame(whitePlayerEntity, blackPlayerEntity, startTime);
 
             return _mapper.Map<GameDto>(game);
         }

@@ -9,9 +9,10 @@ namespace ChessHub.Services
     public interface IGameService
     {
         GameDto AddGame(GameDto game);
-        GameDto RemoveGame(UserDto whitePlayer, UserDto blackPlayer);
-        GameDto EditGame(UserDto whitePlayer, UserDto blackPlayer, GameDto newData);
-        GameDto GetGame(UserDto whitePlayer, UserDto blackPlayer);
+        GameDto RemoveGame(UserDto whitePlayer, UserDto blackPlayer, DateTime startTime);
+        GameDto EditGame(UserDto whitePlayer, UserDto blackPlayer, DateTime startTime, GameDto newData);
+        GameDto GetGame(UserDto whitePlayer, UserDto blackPlayer, DateTime startTime);
         List<GameDto> GetGames();
+        List<GameDto> GetGamesByUser(UserDto player);
     }
 }
