@@ -12,7 +12,7 @@ namespace ChessHub.Services
         GameDto AddGame(GameDto game);
         GameDto RemoveGame(UserDto ownerPlayer, DateTime startTime);
         GameDto EditGame(UserDto ownerPlayer, GameResultId gameResultId, GameDto newData);
-        GameDto GetGame(UserDto ownerPlayer, DateTime startTime);
+        GameDto GetGame(string ownerPlayer);
         GameDto GetNotGoingGame(UserDto ownerPlayer);
         List<GameDto> GetGames();
         List<GameDto> GetNotStartedGames();

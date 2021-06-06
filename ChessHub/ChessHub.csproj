@@ -63,6 +63,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\assets\img\chess-pieces-img\" />
     <Folder Include="Services\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>

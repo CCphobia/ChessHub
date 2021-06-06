@@ -429,7 +429,90 @@ section {
 .chess-board-row {
     height: 80%;
 }
-.chess-board-image {
-    background: url("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/black-and-white-chess-board-template-design-d9649c353001bd68f86c5bf1c676bfaf_screen.jpg?ts=1599290312");
+
+
+.wrapper {
+    width: 100%;
+    display: grid;
+    grid-gap: 0;
+    grid-template-rows: repeat(8, 12%);
+    grid-template-columns: repeat(8, 12%);
+    grid-auto-flow: column;
+}
+.PossibleMove {
+    background-color: green !important;
+}
+
+.box {
+    padding: 13px;
+    background-color: #F1CCA2;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.box img{
+    width: 100%;
+    height: 100%;
+}
+
+    .box:nth-child(-2n),
+    .box:nth-child(1) ~ div:nth-child(-2n+8),
+    .box:nth-child(8) ~ div:nth-child(-2n+15),
+    .box:nth-child(16) ~ div:nth-child(-2n+24),
+    .box:nth-child(24) ~ div:nth-child(-2n+31),
+    .box:nth-child(32) ~ div:nth-child(-2n+40),
+    .box:nth-child(40) ~ div:nth-child(-2n+47),
+    .box:nth-child(48) ~ div:nth-child(-2n+56),
+    .box:nth-child(56) ~ div:nth-child(-2n+63) {
+        background-color: #C9723D;
+    }
+
+.BishopWhite {
+    background-image: url("../img/chess-pieces-img/BishopWhite.svg");
+}
+
+.BishopBlack {
+    background-image: url("../img/chess-pieces-img/BishopBlack.svg");
+}
+
+.RookWhite {
+    background-image: url("../img/chess-pieces-img/RookWhite.svg");
+}
+
+.RookBlack {
+    background-image: url("../img/chess-pieces-img/RookBlack.svg");
+}
+
+.KnightWhite {
+    background-image: url("../img/chess-pieces-img/KnightWhite.svg");
+}
+
+.KnightBlack {
+    background-image: url("../img/chess-pieces-img/KnightBlack.svg");
+}
+
+.QueenWhite {
+    background-image: url("../img/chess-pieces-img/QueenWhite.svg");
+}
+
+.QueenBlack {
+    background-image: url("../img/chess-pieces-img/QueenBlack.svg");
+}
+
+.KingWhite {
+    background-image: url("../img/chess-pieces-img/KingWhite.svg");
+}
+
+.KingBlack {
+    background-image: url("../img/chess-pieces-img/KingBlack.svg");
+}
+
+.PawnWhite {
+    background-image: url("../img/chess-pieces-img/PawnWhite.svg");
+}
+
+.PawnBlack {
+    background-image: url("../img/chess-pieces-img/PawnBlack.svg");
 }
 

@@ -11,7 +11,7 @@ namespace ChessHub.Data
         Game AddGame(Game game);
         Game RemoveGame(User ownerPlayer, DateTime startTime);
         Game EditGame(User ownerPlayer, GameResultId gameResultId, Game newData);
-        Game GetGame(User ownerPlayer, DateTime startTime);
+        Game GetGame(string ownerPlayer);
         Game GetNotGoingGame(User ownerPlayer);
         List<Game> GetGames();
         List<Game> GetNotStartedGames();

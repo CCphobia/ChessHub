@@ -43,9 +43,13 @@ namespace ChessHub.Services.Implementations
         public GameDto EditGame(UserDto ownerPlayer, GameResultId GameResult, GameDto newData)
         {
             Game newEntityData = _mapper.Map<Game>(newData);
-            newEntityData.OwnerPlayer = _userRepository.GetUser(newEntityData.OwnerPlayer.Email);
-            newEntityData.BlackPlayer = _userRepository.GetUser(newEntityData.BlackPlayer.Email);
-            newEntityData.WhitePlayer = _userRepository.GetUser(newEntityData.WhitePlayer.Email);
+            User OwnerPlayer = _userRepository.GetUser(newEntityData.OwnerPlayer.Email);
+            User BlackPlayer = _userRepository.GetUser(newEntityData.BlackPlayer.Email);
+            User WhitePlayer = _userRepository.GetUser(newEntityData.WhitePlayer.Email);
+            newEntityData.OwnerPlayer = OwnerPlayer;
+            newEntityData.BlackPlayer = BlackPlayer;
+            newEntityData.WhitePlayer = WhitePlayer;
+            newEntityData.StartTime = DateTime.Now;
             try
             {
                 Game editedGame = _gameRepository.EditGame(newEntityData.OwnerPlayer, GameResult, newEntityData);
@@ -58,11 +62,10 @@ namespace ChessHub.Services.Implementations
             }
         }
 
-        public GameDto GetGame(UserDto ownerPlayer, DateTime startTime)
+        public GameDto GetGame(string ownerPlayer)
         {
-            User ownerPlayerEntity = _mapper.Map<User>(ownerPlayer);
 
-            Game game = _gameRepository.GetGame(ownerPlayerEntity, startTime);
+            Game game = _gameRepository.GetGame(ownerPlayer);
 
             return _mapper.Map<GameDto>(game);
         }
