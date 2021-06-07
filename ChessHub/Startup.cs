@@ -62,6 +62,12 @@ namespace ChessHub
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddAuthentication()
+    .AddGoogle(options =>
+    {
+        options.ClientId = "962903124893-86s5n92htmpjufccogo5b6nndoghcdkf.apps.googleusercontent.com";
+        options.ClientSecret = "addrXOk-7eW13Q-M_YbY0w-L";
+    });
 
             services.AddAutoMapper(cfg => cfg.AddProfile(new DefaultDTOMapping()));
 
