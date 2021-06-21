@@ -51,10 +51,10 @@ namespace ChessHub.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetGame(UserDto ownerPlayer)
+        [Route("GetInitialGame/{ownerPlayerEmail?}")]
+        public IActionResult GetGame(string ownerPlayerEmail)
         {
-            DateTime gameStart = DateTime.Now;//doesnt work
-            GameDto game = _gameService.GetGame(ownerPlayer, gameStart);
+            GameDto game = _gameService.GetGame(ownerPlayerEmail);
 
             if (game == null)
             {

@@ -16,6 +16,7 @@ namespace ChessHub.Hubs
         public async Task JoinRoom(string room)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, room);
+            await Clients.Group(room).SendAsync("PlayerJoin");
         }
 
 
@@ -24,10 +25,10 @@ namespace ChessHub.Hubs
             await Clients.Group(message.Room).SendAsync("ReceiveMessage",message);
         }
 
-        //public async Task SendMove(string room, string player, string move)
-        //{
-        //    await Clients.Group(room).SendAsync("ReceiveMove", player, move);
-        //}
+        public async Task SendMove(Move move)
+        {
+            await Clients.Group(move.Room).SendAsync("ReceiveMove", move);
+        }
 
 
     }

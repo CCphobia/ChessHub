@@ -18,21 +18,6 @@ export class GameRooms extends Component {
         this.populateGameRoomsData();
     }
 
-    async joinToRoom(ownerName) {
-        console.log(this.state.username);
-        const token = await authService.getAccessToken();
-        await fetch('game/JoinPlayer/' + ownerName, {
-            method: 'PUT',
-            headers: !token ? {} : {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                Email: this.state.username
-            })
-        })
-    }
-
     async populateGameRoomsData() {
         const user = await authService.getUser();
         const token = await authService.getAccessToken();
@@ -84,7 +69,7 @@ export class GameRooms extends Component {
                         <h4>{gameroom.ownerPlayer.rank}</h4>
                     </div>
                     <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                        <Link to={"/Game/" + gameroom.ownerPlayer.email} onClick={() => this.joinToRoom(gameroom.ownerPlayer.email)} role="button" aria-pressed="true">Dołącz</Link>
+                        <Link to={"/Game/" + gameroom.ownerPlayer.email} role="button" aria-pressed="true">Dołącz</Link>
                     </div>
                 </div>
             )}

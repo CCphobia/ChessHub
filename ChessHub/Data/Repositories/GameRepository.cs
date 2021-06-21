@@ -26,27 +26,24 @@ namespace ChessHub.Data.Repositories
 
         public Game EditGame(User ownerPlayer, GameResultId gameResultId, Game newData)
         {
+
             Game game = _chessHubDbContext.Games.FirstOrDefault(game =>
                 game.OwnerPlayer.Equals(ownerPlayer) && game.GameResultId.Equals(gameResultId));
-
-            game.OwnerPlayer = newData.OwnerPlayer;
-            game.WhitePlayer = newData.WhitePlayer;
-            game.BlackPlayer = newData.BlackPlayer;
-            game.GameResultId = newData.GameResultId;
-            game.Moves = newData.Moves;
-            game.MovesCounter = newData.MovesCounter;
-            game.StartTime = newData.StartTime;
-            game.EndTime = newData.EndTime;
-
+            _chessHubDbContext.Games.Remove(game);
             _chessHubDbContext.SaveChanges();
 
-            return game;
+
+            _chessHubDbContext.Games.Add(newData);
+            _chessHubDbContext.SaveChanges();
+            var games = _chessHubDbContext.Games.Include(x => x.OwnerPlayer).ToList();
+
+            return newData;
         }
 
-        public Game GetGame(User ownerPlayer, DateTime startTime)
+        public Game GetGame(string ownerPlayer)
         {
-            return _chessHubDbContext.Games.FirstOrDefault(game =>
-                game.OwnerPlayer.Equals(ownerPlayer) && game.StartTime.Equals(startTime));
+            var games = _chessHubDbContext.Games.Include(x => x.OwnerPlayer).Include(x => x.WhitePlayer).Include(x => x.BlackPlayer).ToList();
+            return games.Where(game => game.OwnerPlayer.Email.Equals(ownerPlayer) && (game.GameResultId.Equals(GameResultId.Ongoing) || game.GameResultId.Equals(GameResultId.NotStarted))).FirstOrDefault();
         }
 
         public Game GetNotGoingGame(User ownerPlayer)
